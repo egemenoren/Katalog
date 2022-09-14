@@ -21,8 +21,15 @@ builder.Services.AddSingleton<IProductDatabaseSettings>(sp => sp.GetRequiredServ
 #endregion
 
 #region Project Dependencies
-builder.Services.AddTransient<IProductContext, ProductContext>();
+
+builder.Services.AddTransient<IBaseProductContext<Katalog.Product.Entities.Product>, ProductContext>();
+builder.Services.AddTransient<IBaseProductContext<Katalog.Product.Entities.Brand>, BrandContext>();
+builder.Services.AddTransient<IBaseProductContext<Katalog.Product.Entities.Category>, CategoryContext>();
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
+builder.Services.AddTransient<IBrandRepository, BrandRepository>();
+builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+
+builder.Services.AddAutoMapper(typeof(Program));
 #endregion
 
 #region Swagger

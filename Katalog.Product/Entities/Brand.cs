@@ -1,9 +1,10 @@
-﻿using MongoDB.Bson;
+﻿using Katalog.Product.Entities.Abstract;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Katalog.Product.Entities
 {
-    public class Brand
+    public class Brand : IEntity
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

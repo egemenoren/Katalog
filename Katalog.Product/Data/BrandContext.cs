@@ -4,15 +4,15 @@ using MongoDB.Driver;
 
 namespace Katalog.Product.Data
 {
-    public class ProductContext : IBaseProductContext<Entities.Product>
+    public class BrandContext : IBaseProductContext<Entities.Brand>
     {
-        public ProductContext(IProductDatabaseSettings settings)
+        public BrandContext(IProductDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionStrings);
             var database = client.GetDatabase(settings.DatabaseName);
 
-            TEntity = database.GetCollection<Entities.Product>(settings.ProductsCollectionName);
+            TEntity = database.GetCollection<Entities.Brand>(settings.BrandsCollectionName);
         }
-        public IMongoCollection<Entities.Product> TEntity { get; }
+        public IMongoCollection<Entities.Brand> TEntity { get; }
     }
 }
