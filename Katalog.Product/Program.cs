@@ -1,19 +1,49 @@
-var builder = WebApplication.CreateBuilder(args);
+using Katalog.Product.Data;
+using Katalog.Product.Data.Abstract;
+using Katalog.Product.Repositories;
+using Katalog.Product.Repositories.Abstract;
+using Katalog.Product.Settings;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 
+var builder = WebApplication.CreateBuilder(args);
+ConfigurationManager configuration = builder.Configuration;
 // Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+#region Configuration Dependencies
+builder.Services.Configure<ProductDatabaseSettings>(builder.Configuration.GetSection(nameof(ProductDatabaseSettings)));
+builder.Services.AddSingleton<IProductDatabaseSettings>(sp => sp.GetRequiredService<IOptions<ProductDatabaseSettings>>().Value);
+#endregion
+
+#region Project Dependencies
+builder.Services.AddTransient<IProductContext, ProductContext>();
+builder.Services.AddTransient<IProductRepository, ProductRepository>();
+#endregion
+
+#region Swagger
+builder.Services.AddSwaggerGen(x =>
+{
+    x.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Katalog.Product",
+        Version = "v1"
+    });
+});
+#endregion
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Katalog.Product v1"));
 }
 
 app.UseHttpsRedirection();
