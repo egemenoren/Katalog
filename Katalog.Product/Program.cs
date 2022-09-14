@@ -1,5 +1,8 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Katalog.Product.Data;
 using Katalog.Product.Data.Abstract;
+using Katalog.Product.DependencyResolvers.Autofac;
 using Katalog.Product.Repositories;
 using Katalog.Product.Repositories.Abstract;
 using Katalog.Product.Settings;
@@ -22,12 +25,13 @@ builder.Services.AddSingleton<IProductDatabaseSettings>(sp => sp.GetRequiredServ
 
 #region Project Dependencies
 
-builder.Services.AddTransient<IBaseProductContext<Katalog.Product.Entities.Product>, ProductContext>();
-builder.Services.AddTransient<IBaseProductContext<Katalog.Product.Entities.Brand>, BrandContext>();
-builder.Services.AddTransient<IBaseProductContext<Katalog.Product.Entities.Category>, CategoryContext>();
-builder.Services.AddTransient<IProductRepository, ProductRepository>();
-builder.Services.AddTransient<IBrandRepository, BrandRepository>();
-builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
+    .ConfigureContainer<ContainerBuilder>(builder =>
+    {
+        builder.RegisterModule(new AutofacProductServiceModule());
+    });
+
 
 builder.Services.AddAutoMapper(typeof(Program));
 #endregion
