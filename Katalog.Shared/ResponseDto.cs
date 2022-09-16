@@ -30,6 +30,10 @@ namespace Katalog.Shared
         {
             return new ResponseDto { Errors = new List<string> { error }, StatusCode = statusCode, IsSuccessful = false };
         }
+        public static ResponseDto Fail()
+        {
+            return new ResponseDto {IsSuccessful = false };
+        }
     }
     public class ResponseDto<T> : ResponseDto
     {
@@ -39,6 +43,10 @@ namespace Katalog.Shared
         public static ResponseDto<T> Success(T data,int statusCode)
         {
             return new ResponseDto<T> { Data = data, StatusCode = statusCode, IsSuccessful = true };
+        }
+        public static ResponseDto<List<T>> Success(List<T> data,int statusCode)
+        {
+            return new ResponseDto<List<T>> { Data = data, StatusCode = statusCode, IsSuccessful = true };
         }
         public static ResponseDto<T> Fail(T data,List<string> errors, int statusCode)
         {
