@@ -1,7 +1,6 @@
 ﻿using Katalog.Product.Data.Abstract;
 using Katalog.Product.Entities.Abstract;
 using Katalog.Product.Repositories.Abstract;
-using Katalog.Shared;
 using MongoDB.Driver;
 
 namespace Katalog.Product.Repositories
@@ -10,21 +9,24 @@ namespace Katalog.Product.Repositories
         where TEntity : class, IEntity, new()
     {
         #region Constructor
+
         private readonly IBaseProductContext<TEntity> _context;
 
         public BaseRepository(IBaseProductContext<TEntity> context)
         {
             _context = context;
         }
-        #endregion
+
+        #endregion Constructor
 
         #region CRUD OPERATIONS
-        public async Task Create(TEntity entity)
+
+        public virtual async Task Create(TEntity entity)
         {
             await _context.TEntity.InsertOneAsync(entity);
         }
 
-        public async Task<bool> Delete(string id)
+        public virtual async Task<bool> Delete(string id)
         {
             var filter = Builders<TEntity>.Filter.Eq(x => x.Id, id);
             DeleteResult deleteResult = await _context.TEntity.DeleteOneAsync(filter);
@@ -32,7 +34,7 @@ namespace Katalog.Product.Repositories
             return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
         }
 
-        public async Task<bool> DeleteMany(List<string> ids)
+        public virtual async Task<bool> DeleteMany(List<string> ids)
         {
             for (int i = 0; i < ids.Count; i++)
             {
@@ -46,27 +48,25 @@ namespace Katalog.Product.Repositories
             return true;
         }
 
-        public async Task<ResponseDto<TEntity>> GetById(string id)
+        public virtual async Task<TEntity> GetById(string id)
         {
-            var data = await _context.TEntity.Find(x => x.Id == id).FirstOrDefaultAsync();
-            if (data != null)
-                return ResponseDto<TEntity>.Success(data, 1);
-            else
-                return null;
+            var data = await _context.TEntity.Find(x => x.Id == id).SingleOrDefaultAsync();
+            return data;
         }
 
-        public async Task<ResponseDto<List<TEntity>>> GetAll()
+        public virtual async Task<List<TEntity>> GetAll()
         {
             var data = await _context.TEntity.Find(p => true).ToListAsync();
-            return ResponseDto<List<TEntity>>.Success(data, 1);
+            return data;
         }
 
-        public async Task<bool> Update(TEntity entity)
+        public virtual async Task<bool> Update(TEntity entity)
         {
             var updateResult = await _context.TEntity.ReplaceOneAsync(filter: g => g.Id == entity.Id, replacement: entity);
             return updateResult.IsAcknowledged && updateResult.ModifiedCount > 0;
         }
-        public async Task<bool> UpdateMany(List<TEntity> entities)
+
+        public virtual async Task<bool> UpdateMany(List<TEntity> entities)
         {
             for (int i = 0; i < entities.Count; i++)
             {
@@ -78,6 +78,7 @@ namespace Katalog.Product.Repositories
             }
             return true;
         }
-        #endregion
+
+        #endregion CRUD OPERATIONS
     }
 }

@@ -40,11 +40,6 @@ namespace Katalog.Product.Entities
         [BsonRepresentation(BsonType.DateTime)]
         public DateTime UpdateTime { get; set; }
 
-        [BsonIgnore]
-        public Category Category { get; set; }
-
-        [BsonIgnore]
-        public Brand Brand { get; set; }
 
     }
 }

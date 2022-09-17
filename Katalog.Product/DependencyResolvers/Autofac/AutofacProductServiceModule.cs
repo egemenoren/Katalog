@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using Autofac.Extras.DynamicProxy;
+using Castle.DynamicProxy;
 using Katalog.Product.Data;
 using Katalog.Product.Data.Abstract;
 using Katalog.Product.Repositories;
@@ -10,6 +12,8 @@ namespace Katalog.Product.DependencyResolvers.Autofac
     {
         protected override void Load(ContainerBuilder builder)
         {
+            
+
             builder.RegisterType<ProductContext>().As<IBaseProductContext<Entities.Product>>().SingleInstance();
             builder.RegisterType<BrandContext>().As<IBaseProductContext<Entities.Brand>>().SingleInstance();
             builder.RegisterType<CategoryContext>().As<IBaseProductContext<Entities.Category>>().SingleInstance();
@@ -17,6 +21,12 @@ namespace Katalog.Product.DependencyResolvers.Autofac
             builder.RegisterType<ProductRepository>().As<IProductRepository>().SingleInstance();
             builder.RegisterType<BrandRepository>().As<IBrandRepository>().SingleInstance();
             builder.RegisterType<CategoryRepository>().As<ICategoryRepository>().SingleInstance();
+
+            builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>();
+
+
+
+
         }
     }
 }

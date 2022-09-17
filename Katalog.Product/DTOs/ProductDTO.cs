@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using Katalog.Product.Entities;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Katalog.Product.DTOs
@@ -11,9 +12,13 @@ namespace Katalog.Product.DTOs
         public decimal Price { get; set; }
         public decimal ListPrice { get; set; }
         public int Stock { get; set; }
-        public string CategoryId { get; set; }
-        public string BrandId { get; set; }
         public decimal VatRate { get; set; }
         public string Description { get; set; }
+
+        [BsonIgnore]
+        public Category Category { get; set; }
+
+        [BsonIgnore]
+        public Brand Brand { get; set; }
     }
 }

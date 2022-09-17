@@ -1,30 +1,20 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Katalog.Product.Data;
-using Katalog.Product.Data.Abstract;
 using Katalog.Product.DependencyResolvers.Autofac;
-using Katalog.Product.Repositories;
-using Katalog.Product.Repositories.Abstract;
 using Katalog.Product.Settings;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
+
 // Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-#region Configuration Dependencies
-builder.Services.Configure<ProductDatabaseSettings>(builder.Configuration.GetSection(nameof(ProductDatabaseSettings)));
-builder.Services.AddSingleton<IProductDatabaseSettings>(sp => sp.GetRequiredService<IOptions<ProductDatabaseSettings>>().Value);
-#endregion
-
 #region Project Dependencies
-
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
     .ConfigureContainer<ContainerBuilder>(builder =>
@@ -32,11 +22,19 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
         builder.RegisterModule(new AutofacProductServiceModule());
     });
 
-
 builder.Services.AddAutoMapper(typeof(Program));
-#endregion
+
+#endregion Project Dependencies
+
+#region Configuration Dependencies
+
+builder.Services.Configure<ProductDatabaseSettings>(builder.Configuration.GetSection(nameof(ProductDatabaseSettings)));
+builder.Services.AddSingleton<IProductDatabaseSettings>(sp => sp.GetRequiredService<IOptions<ProductDatabaseSettings>>().Value);
+
+#endregion Configuration Dependencies
 
 #region Swagger
+
 builder.Services.AddSwaggerGen(x =>
 {
     x.SwaggerDoc("v1", new OpenApiInfo
@@ -45,7 +43,8 @@ builder.Services.AddSwaggerGen(x =>
         Version = "v1"
     });
 });
-#endregion
+
+#endregion Swagger
 
 var app = builder.Build();
 

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Katalog.Product.DTOs;
 using Katalog.Product.Entities;
 
 namespace Katalog.Product.Mapping
@@ -7,8 +8,8 @@ namespace Katalog.Product.Mapping
     {
         public ProductMapping()
         {
-            CreateMap<Category, Entities.Product>().ReverseMap();
-            CreateMap<Brand, Entities.Product>().ReverseMap();
+            CreateMap<Category, ProductDTO>().ReverseMap();
+            CreateMap<Brand, ProductDTO>().ReverseMap();
             CreateMap<DTOs.ProductDTO, Entities.Product>().ReverseMap();
         }
     }
