@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
-namespace Katalog.Shared
+
+namespace Katalog.Shared.Dtos
 {
 
     public class ResponseDto
@@ -32,25 +29,25 @@ namespace Katalog.Shared
         }
         public static ResponseDto Fail()
         {
-            return new ResponseDto {IsSuccessful = false };
+            return new ResponseDto { IsSuccessful = false };
         }
     }
     public class ResponseDto<T> : ResponseDto
     {
         public T Data { get; set; }
 
-        
-        public static ResponseDto<T> Success(T data,int statusCode)
+
+        public static ResponseDto<T> Success(T data, int statusCode)
         {
             return new ResponseDto<T> { Data = data, StatusCode = statusCode, IsSuccessful = true };
         }
-        public static ResponseDto<T> Fail(T data,List<string> errors, int statusCode)
+        public static ResponseDto<T> Fail(T data, List<string> errors, int statusCode)
         {
-            return new ResponseDto<T> { Errors = errors, StatusCode = statusCode, IsSuccessful = false,Data=data };
+            return new ResponseDto<T> { Errors = errors, StatusCode = statusCode, IsSuccessful = false, Data = data };
         }
-        public static ResponseDto<T> Fail(T data,string error, int statusCode)
+        public static ResponseDto<T> Fail(T data, string error, int statusCode)
         {
-            return new ResponseDto<T> { Errors = new List<string> { error }, StatusCode = statusCode, IsSuccessful = false,Data=data };
+            return new ResponseDto<T> { Errors = new List<string> { error }, StatusCode = statusCode, IsSuccessful = false, Data = data };
         }
 
 

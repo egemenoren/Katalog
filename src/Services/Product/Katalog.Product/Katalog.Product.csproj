@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Shared\Dtos\Katalog.Shared\Katalog.Shared.csproj" />
+    <ProjectReference Include="..\..\..\..\Katalog.Shared\Katalog.Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Katalog.Product.DTOs;
 using Katalog.Product.Repositories.Abstract;
-using Katalog.Shared;
+using Katalog.Shared.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 

@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using IdentityServer4;
 using IdentityServer4.Models;
 using System.Collections.Generic;
 
@@ -9,18 +10,22 @@ namespace Katalog.IdentityServer
 {
     public static class Config
     {
+        public static IEnumerable<ApiResource> ApiResources => new ApiResource[]
+        {
+            new ApiResource("resource_product"){Scopes={"product_fullperm"}},
+            new ApiResource("resource_photo"){Scopes={"product_fullperm"}}
+        };
         public static IEnumerable<IdentityResource> IdentityResources =>
                    new IdentityResource[]
                    {
-                new IdentityResources.OpenId(),
-                new IdentityResources.Profile(),
                    };
 
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
-                new ApiScope("scope1"),
-                new ApiScope("scope2"),
+                new ApiScope("product_fullperm","Urunler icin tam erisim"),
+                new ApiScope("photo_fullperm","Fotograflar icin tam erisim"),
+                new ApiScope(IdentityServerConstants.LocalApi.ScopeName)
             };
 
         public static IEnumerable<Client> Clients =>
@@ -29,13 +34,11 @@ namespace Katalog.IdentityServer
                 // m2m client credentials flow client
                 new Client
                 {
-                    ClientId = "m2m.client",
-                    ClientName = "Client Credentials Client",
-
+                    ClientId = "WebMvcClient",
+                    ClientName = "Asp.Net Core MVC",
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
-
-                    AllowedScopes = { "scope1" }
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+                    AllowedScopes = { "product_fullperm", "photo_fullperm",IdentityServerConstants.LocalApi.ScopeName }
                 },
 
                 // interactive client using code flow + pkce
