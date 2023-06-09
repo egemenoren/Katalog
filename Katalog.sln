@@ -25,6 +25,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Katalog.Product", "src\Serv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Katalog.Shared", "src\Services\Shared\Dtos\Katalog.Shared\Katalog.Shared.csproj", "{D9C48495-13EF-41F9-AC6C-35B13AD9B573}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityServer", "IdentityServer", "{A0F87FB4-7C20-4D34-A9DA-218DF3F63076}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Katalog.IdentityServer", "src\Services\IdentityServer\Katalog.IdentityServer\Katalog.IdentityServer.csproj", "{54ABD2BC-052E-42D8-9190-9992B89746AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +47,10 @@ Global
 		{D9C48495-13EF-41F9-AC6C-35B13AD9B573}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9C48495-13EF-41F9-AC6C-35B13AD9B573}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9C48495-13EF-41F9-AC6C-35B13AD9B573}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54ABD2BC-052E-42D8-9190-9992B89746AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54ABD2BC-052E-42D8-9190-9992B89746AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54ABD2BC-052E-42D8-9190-9992B89746AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54ABD2BC-052E-42D8-9190-9992B89746AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +66,8 @@ Global
 		{C3F99AF9-CC7C-4597-AE95-AFF879688AFC} = {D7A1A0B7-2176-4CF0-8603-3D410846E0B2}
 		{91B19CE9-F520-4AFD-B016-7220FAB8BF82} = {E5D8F4D5-394E-4AFE-8CA9-1B2D9FED7E1F}
 		{D9C48495-13EF-41F9-AC6C-35B13AD9B573} = {4DC212A3-9E5D-4A46-B0C3-BF5EA6B91633}
+		{A0F87FB4-7C20-4D34-A9DA-218DF3F63076} = {0D02B645-306B-47EF-9C8E-9FB512BCBA83}
+		{54ABD2BC-052E-42D8-9190-9992B89746AE} = {A0F87FB4-7C20-4D34-A9DA-218DF3F63076}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FF802490-A8A9-4C19-8E0A-5FC4A9EA9CB2}
