@@ -50,18 +50,19 @@ namespace Katalog.IdentityServer
                 // interactive client using code flow + pkce
                 new Client
                 {
-                    ClientId = "WebMvcClient",
+                    ClientId = "WebMvcClientForUser",
                     ClientName = "Asp.Net Core MVC",
+                    AllowOfflineAccess = true,
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     ClientSecrets = { new Secret("secret".Sha256()) },
                     AllowedScopes = { 
                         IdentityServerConstants.StandardScopes.Email,
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile
-                        , IdentityServerConstants.StandardScopes.OfflineAccess,"roles" },
-                    AccessTokenLifetime = 3600,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.OfflineAccess,IdentityServerConstants.LocalApi.ScopeName,"roles" },
+                    AccessTokenLifetime = 1*60*60,
                     RefreshTokenExpiration = TokenExpiration.Absolute,
-                    AbsoluteRefreshTokenLifetime = (int)(DateTime.Now.AddDays(-60) - DateTime.Now).TotalSeconds,
+                    AbsoluteRefreshTokenLifetime = (int)(DateTime.Now.AddDays(60) - DateTime.Now).TotalSeconds,
                     RefreshTokenUsage = TokenUsage.ReUse
                 },
             };
