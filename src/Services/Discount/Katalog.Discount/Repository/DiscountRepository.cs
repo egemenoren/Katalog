@@ -1,7 +1,10 @@
 ﻿using Dapper;
+using Dapper.Contrib.Extensions;
 using Katalog.Discount.Types;
 using Npgsql;
 using System.Data;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace Katalog.Discount.Repository
 {
@@ -32,7 +35,7 @@ namespace Katalog.Discount.Repository
         public async Task<bool> Update(Entities.Discount discount)
         {
             var result = await _dbConnection.ExecuteAsync(
-                "Update discount set UserId = @userId,Code = @code,Rate = @rate,CertainValue = @certainValue," +
+                "Update discount set UserId = @userId,Code = @code,Rate = @rate, Description = @description,CertainValue = @certainValue," +
                 "MinCartValue = @minCartValue,MaxCartValue = @maxCartValue,MaxDiscount = @maxDiscount," +
                 "DiscountType = @discountType,StoreIds = @storeIds,CategoryIds = @categoryIds,ProductIds = @productIds," +
                 "IsLimited = @isLimited,Amount = @amount,ValidityDate = @validityDate,StatusType = @statusType," +
@@ -54,7 +57,8 @@ namespace Katalog.Discount.Repository
                     amount = discount.Amount,
                     validityDate = discount.ValidityDate,
                     statusType = discount.StatusType,
-                    createdById = discount.CreatedById
+                    createdById = discount.CreatedById,
+                    description = discount.Description,
                 });
             if(result > 0) 
                 return true;
@@ -77,9 +81,14 @@ namespace Katalog.Discount.Repository
 
         public async Task<Entities.Discount> GetById(int id)
         {
-            var discount = await _dbConnection.QueryAsync<Entities.Discount>("Select * from discount where Id = @id", new { id = id });
-            return discount.SingleOrDefault();
+            var discount = await _dbConnection.GetAsync<Entities.Discount>(id);
+            return discount;
         }
 
+        public async Task<Entities.Discount> GetByCode(string code)
+        {
+            var discount = await _dbConnection.QueryFirstOrDefaultAsync<Entities.Discount>("select * from discount where Code = @code", new { code = code });
+            return discount;
+        }
     }
 }

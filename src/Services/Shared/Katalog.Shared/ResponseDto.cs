@@ -45,6 +45,10 @@ namespace Katalog.Shared.Dtos
         {
             return new ResponseDto<T> { Errors = errors, StatusCode = statusCode, IsSuccessful = false, Data = data };
         }
+        public static ResponseDto<T> Fail(string errors, int statusCode)
+        {
+            return new ResponseDto<T> { Errors = new List<string> { errors }, StatusCode = statusCode, IsSuccessful = false };
+        }
         public static ResponseDto<T> Fail(T data, string error, int statusCode)
         {
             return new ResponseDto<T> { Errors = new List<string> { error }, StatusCode = statusCode, IsSuccessful = false, Data = data };

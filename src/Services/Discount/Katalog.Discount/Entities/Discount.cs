@@ -1,4 +1,5 @@
-﻿using Katalog.Discount.Types;
+﻿using Dapper.Contrib.Extensions;
+using Katalog.Discount.Types;
 
 namespace Katalog.Discount.Entities
 {
@@ -10,9 +11,11 @@ namespace Katalog.Discount.Entities
         {
             _httpContextAccessor = httpContextAccessor;
         }
+        [Key]
         public int Id { get; set; }
         public string UserId { get; set; }
         public string Code { get; set; }
+        public string Description { get; set; }
         public decimal Rate { get; set; }
         public decimal CertainValue { get; set; }
         public decimal MinCartValue { get; set; } = 0;
