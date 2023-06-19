@@ -28,7 +28,7 @@ namespace Katalog.Discount.Services
 
         public async Task<ResponseDto<IEnumerable<Entities.Discount>>> GetByCategoryIds(string[] categoryIds)
         {
-            var result = await _discountRepository.GetAll(); // IT'S GOING TO BE SET.
+            var result = await _discountRepository.GetAll(); //TODO: IT'S GOING TO BE SET.
             return ResponseDto<IEnumerable<Entities.Discount>>.Success(result, 200);
         }
 
@@ -46,15 +46,15 @@ namespace Katalog.Discount.Services
 
         public async Task<ResponseDto<IEnumerable<Entities.Discount>>> GetByProductIds(string[] productIds)
         {
-            var result = await _discountRepository.GetAll();
-            return (ResponseDto<IEnumerable<Entities.Discount>>)ResponseDto<IEnumerable<Entities.Discount>>.Fail("This method cannot be used", 500);
+            var result = await _discountRepository.GetAll();//TODO: IT'S GOING TO BE SET.
+            return ResponseDto<IEnumerable<Entities.Discount>>.Fail("This method cannot be used", 500);
 
         }
 
         public async Task<ResponseDto<IEnumerable<Entities.Discount>>> GetByStoreIds(string[] storeIds)
         {
-            var result = await _discountRepository.GetAll();
-            return (ResponseDto<IEnumerable<Entities.Discount>>)ResponseDto<IEnumerable<Entities.Discount>>.Fail("This method cannot be used", 500);
+            var result = await _discountRepository.GetAll();//TODO: IT'S GOING TO BE SET.
+            return ResponseDto<IEnumerable<Entities.Discount>>.Fail("This method cannot be used", 500);
 
         }
 
@@ -70,7 +70,7 @@ namespace Katalog.Discount.Services
         {
             var resultSuccess = await _discountRepository.Delete(id);
             if (resultSuccess)
-                return ResponseDto<Entities.Discount>.Fail("The code you are trying to remove is invalid.", 404);
+                return ResponseDto.Fail("The code you are trying to remove is invalid.", 404);
             return ResponseDto.Success(204);
 
         }
@@ -88,12 +88,8 @@ namespace Katalog.Discount.Services
         public async Task<ResponseDto> UseCode(string code)
         {
             var discount = await _discountRepository.GetByCode(code);
-            if (discount != null)
-            {
-                if (discount.IsLimited)
-                    discount = CheckTheCodeIsLimited(discount); //TO BE CONTINUED
-            }
-            return null; //for now.
+            //TODO:USECODE IS GONNA BE implemented.
+            return null;
 
         }
         public Entities.Discount CheckTheCodeIsLimited(Entities.Discount discount)

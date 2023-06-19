@@ -16,6 +16,7 @@ namespace Katalog.IdentityServer
             new ApiResource("resource_product"){Scopes={"product_fullperm"}},
             new ApiResource("resource_photo"){Scopes={"photo_fullperm"}},
             new ApiResource("resource_basket"){Scopes={"basket_fullperm"}},
+            new ApiResource("resource_discount"){Scopes={"discount_fullperm,discount_read,discount_write"}},
             new ApiResource(IdentityServerConstants.LocalApi.ScopeName)
         };
         public static IEnumerable<IdentityResource> IdentityResources =>
@@ -33,6 +34,9 @@ namespace Katalog.IdentityServer
                 new ApiScope("product_fullperm","Urunler icin tam erisim"),
                 new ApiScope("photo_fullperm","Fotograflar icin tam erisim"),
                 new ApiScope("basket_fullperm","Basket icin tam erisim"),
+                new ApiScope("discount_fullperm","Discount icin tam erisim"),
+                new ApiScope("discount_read","Discount icin read erisim"),
+                new ApiScope("discount_write","Discount icin write erisim"),
                 new ApiScope(IdentityServerConstants.LocalApi.ScopeName)
             };
 
@@ -59,6 +63,7 @@ namespace Katalog.IdentityServer
                     ClientSecrets = { new Secret("secret".Sha256()) },
                     AllowedScopes = { 
                         "basket_fullperm",
+                        "discount_fullperm",
                         IdentityServerConstants.StandardScopes.Email,
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
