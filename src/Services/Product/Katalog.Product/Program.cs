@@ -13,19 +13,21 @@ ConfigurationManager configuration = builder.Configuration;
 
 // Add services to the container.
 
-builder.Services.AddControllers(opt =>
-{
-    opt.Filters.Add(new AuthorizeFilter());
-});
+
+Katalog.Shared.Helper.IdentityServerRegistry.ConfigureBaseServices(builder.Services, "resource_product", configuration["IdentityServerURL"]);
+//builder.Services.AddControllers(opt =>
+//{
+//    opt.Filters.Add(new AuthorizeFilter());
+//});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-{
-    options.Authority = configuration["IdentityServerURL"];
-    options.Audience = "resource_product";
-    options.RequireHttpsMetadata = false;
-});
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+//{
+//    options.Authority = configuration["IdentityServerURL"];
+//    options.Audience = "resource_product";
+//    options.RequireHttpsMetadata = false;
+//});
 
 #region Project Dependencies
 
