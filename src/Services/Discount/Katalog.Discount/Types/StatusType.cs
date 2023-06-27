@@ -1,6 +1,6 @@
 ﻿namespace Katalog.Discount.Types
 {
-    public enum StatusType
+    public enum StatusType:int
     {
         Active = 0,
         OutDated = 1,

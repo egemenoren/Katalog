@@ -1,5 +1,6 @@
 using Katalog.Discount.Repository;
 using Katalog.Discount.Services;
+using Katalog.Shared.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -12,22 +13,24 @@ var builder = WebApplication.CreateBuilder(args);
 
 var requireAuthorize = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-{
-    options.Authority = builder.Configuration["IdentityServerURL"];
-    options.Audience = "resource_discount";
-    options.RequireHttpsMetadata = false;
-});
+Katalog.Shared.Helper.IdentityServerRegistry.ConfigureBaseServices(builder.Services, "resource_discount", builder.Configuration["IdentityServerURL"]);
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+//{
+//    options.Authority = builder.Configuration["IdentityServerURL"];
+//    options.Audience = "resource_discount";
+//    options.RequireHttpsMetadata = false;
+//});
 
-builder.Services.AddControllers(opt =>
-{
-    opt.Filters.Add(new AuthorizeFilter(requireAuthorize));
-});
-builder.Services.AddHttpContextAccessor();
+//builder.Services.AddControllers(opt =>
+//{
+//    opt.Filters.Add(new AuthorizeFilter(requireAuthorize));
+//});
+//builder.Services.AddHttpContextAccessor();
 
 
 builder.Services.AddSingleton<IDiscountRepository, DiscountRepository>();
 builder.Services.AddSingleton<IDiscountService, DiscountService>();
+builder.Services.AddScoped<ISharedIdentityService, SharedIdentityService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

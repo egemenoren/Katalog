@@ -13,6 +13,8 @@ namespace Katalog.Shared.Helper
     {
         public static void ConfigureBaseServices(this IServiceCollection services,string audience,string identityServerUrl)
         {
+
+            services.AddHttpContextAccessor();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.Authority = identityServerUrl;

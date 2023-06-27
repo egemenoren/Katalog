@@ -22,12 +22,12 @@ namespace Katalog.Discount.Repository
         public async Task<bool> Create(Entities.Discount discount)
         {
             var discounts = await _dbConnection.ExecuteAsync(
-                "Insert into discount (UserId,Code,Rate,CertainValue,MinCartValue," +
-                "MaxCartValue,MaxDiscount,DiscountType,StoreIds,CategoryIds,ProductIds," +
+                "Insert into discount (UserId,Code,Rate,CertainValue,Description,MinCartValue," +
+                "MaxCartValue,MaxDiscount,DiscountType," +
                 "IsLimited,Amount,ValidityDate,StatusType,CreatedById) " +
                 "VALUES " +
-                "(@UserId,@Code,@Rate,@CertainValue,@MinCartValue,@MaxCartValue,@MaxDiscount," +
-                "@DiscountType,@StoreIds,@CategoryIds,@ProductIds,@IsLimited,@Amount,@ValidityDate,@StatusType,@CreatedById)", discount);
+                "(@UserId,@Code,@Rate,@CertainValue,@Description,@MinCartValue,@MaxCartValue,@MaxDiscount," +
+                "@DiscountType,@IsLimited,@Amount,@ValidityDate,@StatusType,@CreatedById)", discount);
             if (discounts > 0)
                 return true;
             return false;
@@ -35,16 +35,28 @@ namespace Katalog.Discount.Repository
         public async Task<bool> Update(Entities.Discount discount)
         {
             var result = await _dbConnection.ExecuteAsync(
-                "Update discount set UserId = @userId,Code = @code,Rate = @rate, Description = @description,CertainValue = @certainValue," +
-                "MinCartValue = @minCartValue,MaxCartValue = @maxCartValue,MaxDiscount = @maxDiscount," +
-                "DiscountType = @discountType,StoreIds = @storeIds,CategoryIds = @categoryIds,ProductIds = @productIds," +
-                "IsLimited = @isLimited,Amount = @amount,ValidityDate = @validityDate,StatusType = @statusType," +
-                "CreatedById = @createdById where Id = @id",
+                "Update discount set " +
+                "UserId = @userId, " +
+                "Code = @code, " +
+                "Rate = @rate, " +
+                "Description = @description, " +
+                "CertainValue = @certainValue, " +
+                "MinCartValue = @minCartValue, " +
+                "MaxCartValue = @maxCartValue, " +
+                "MaxDiscount = @maxDiscount, " +
+                "DiscountType = @discountType, " +
+                "IsLimited = @isLimited, " +
+                "Amount = @amount, " +
+                "ValidityDate = @validityDate, " +
+                "StatusType = @statusType " +
+                "where Id = @id",
                 new
                 {
                     id = discount.Id,
+                    userId = discount.UserId,
                     code = discount.Code,
                     rate = discount.Rate,
+                    description = discount.Description,
                     certainValue = discount.CertainValue,
                     minCartValue = discount.MinCartValue,
                     maxCartValue = discount.MaxCartValue,
@@ -57,10 +69,8 @@ namespace Katalog.Discount.Repository
                     amount = discount.Amount,
                     validityDate = discount.ValidityDate,
                     statusType = discount.StatusType,
-                    createdById = discount.CreatedById,
-                    description = discount.Description,
                 });
-            if(result > 0) 
+            if (result > 0)
                 return true;
             return false;
         }
@@ -85,10 +95,16 @@ namespace Katalog.Discount.Repository
             return discount;
         }
 
-        public async Task<Entities.Discount> GetByCode(string code)
+        public async Task<Entities.Discount> GetByUserIdAndCode(string code, string userId)
         {
-            var discount = await _dbConnection.QueryFirstOrDefaultAsync<Entities.Discount>("select * from discount where Code = @code", new { code = code });
+            var discount = await _dbConnection.QueryFirstOrDefaultAsync<Entities.Discount>("select * from discount where UserId = @userId AND Code = @code", new { code = code, userId = userId });
             return discount;
+        }
+
+        public async Task<IEnumerable<Entities.Discount>> GetByCode(string code)
+        {
+            var discounts = await _dbConnection.QueryAsync<Entities.Discount>("Select * from discount where code = @code", new { code = code });
+            return discounts;
         }
     }
 }

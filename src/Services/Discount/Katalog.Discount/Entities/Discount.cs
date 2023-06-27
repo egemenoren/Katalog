@@ -6,11 +6,6 @@ namespace Katalog.Discount.Entities
     [Dapper.Contrib.Extensions.Table("discount")]
     public class Discount
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        public Discount(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor;
-        }
         [Key]
         public int Id { get; set; }
         public string UserId { get; set; }
@@ -30,15 +25,7 @@ namespace Katalog.Discount.Entities
         public int Amount { get; set; } = 0;
         public DateTime ValidityDate { get; set; }
         public StatusType StatusType { get; set; }
-        public string CreatedById 
-        {
-            get
-            {
-                return _httpContextAccessor.HttpContext.User.FindFirst("sub").Value;
-
-            }
-
-        }
+        public string CreatedById { get; set; } = string.Empty;
 
     }
 }

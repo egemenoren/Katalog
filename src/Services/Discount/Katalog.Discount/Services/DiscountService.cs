@@ -32,10 +32,10 @@ namespace Katalog.Discount.Services
             return ResponseDto<IEnumerable<Entities.Discount>>.Success(result, 200);
         }
 
-        public async Task<ResponseDto<Entities.Discount>> GetByCode(string code)
+        public async Task<ResponseDto<IEnumerable<Entities.Discount>>> GetByCode(string code)
         {
             var result = await _discountRepository.GetByCode(code);
-            return ResponseDto<Entities.Discount>.Success(result, 200);
+            return ResponseDto<IEnumerable<Entities.Discount>>.Success(result, 200);
         }
 
         public async Task<ResponseDto<Entities.Discount>> GetById(int id)
@@ -58,9 +58,9 @@ namespace Katalog.Discount.Services
 
         }
 
-        public async Task<ResponseDto<Entities.Discount>> GetByUserIdAndId(int id, string userId)
+        public async Task<ResponseDto<Entities.Discount>> GetByUserIdAndCode(string code, string userId)
         {
-            var result = await _discountRepository.GetById(id);
+            var result = await _discountRepository.GetByUserIdAndCode(code, userId);
             if (result == null)
                 return ResponseDto<Entities.Discount>.Fail("The code you are searching is invalid.", 404);
             return ResponseDto<Entities.Discount>.Success(result, 200);
@@ -79,8 +79,8 @@ namespace Katalog.Discount.Services
         {
             var resultSuccess = await _discountRepository.Update(discount);
             if (resultSuccess)
-                return ResponseDto.Fail("An error occurred - please try again after a while", 500);
-            return ResponseDto.Success(204);
+                return ResponseDto.Success(204);
+            return ResponseDto.Fail("An error occurred - please try again after a while", 500);
 
 
         }
