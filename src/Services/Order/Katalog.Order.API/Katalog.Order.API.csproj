@@ -19,8 +19,4 @@
     <ProjectReference Include="..\Katalog.Order.Application\Katalog.Order.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>
