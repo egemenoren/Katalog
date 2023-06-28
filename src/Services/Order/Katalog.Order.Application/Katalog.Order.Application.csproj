@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -11,7 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Katalog.Shared\Katalog.Shared.csproj" />
     <ProjectReference Include="..\Katalog.Order.Domain\Katalog.Order.Domain.csproj" />
+    <ProjectReference Include="..\Katalog.Order.Infrastructure\Katalog.Order.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

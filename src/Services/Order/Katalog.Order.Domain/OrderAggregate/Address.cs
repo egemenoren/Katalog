@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Katalog.Order.Domain.OrderAggregate
 {
 
-    public class Address:ValueObject
+    public class Address : ValueObject
     {
         public string District { get; private set; }
         public string City { get; private set; }
@@ -17,7 +17,10 @@ namespace Katalog.Order.Domain.OrderAggregate
         public string Name { get; private set; }
         public string Surname { get; private set; }
         public string MobileNumber { get; private set; }
+        public Address()
+        {
 
+        }
         public Address(string district, string city, string street, string zipCode, string name, string surname, string mobileNumber)
         {
             District = district;

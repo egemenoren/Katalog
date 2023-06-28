@@ -13,15 +13,23 @@ namespace Katalog.Order.Domain.OrderAggregate
         public Address Address { get; private set; }
         public DateTime CreatedDate { get; private set; }
         public DateTime UpdatedDate { get; private set; }
+        public OrderStatus OrderStatus { get; private set; }
         private readonly List<OrderItem> _orderItems;
-        public IReadOnlyCollection<OrderItem> Items => _orderItems;
-        public Order(string customerId, Address address, DateTime updatedDate)
+        public IReadOnlyCollection<OrderItem> OrderItems => _orderItems;
+        public Order()
+        {
+
+        }
+        public Order(string customerId, Address address)
         {
             CustomerId = customerId;
             Address = address;
             CreatedDate = DateTime.Now;
-            UpdatedDate = updatedDate;
             _orderItems = new List<OrderItem>();
+        }
+        public void UpdateOrderStatus(OrderStatus status)
+        {
+            this.OrderStatus = status;
         }
         public void AddOrderItem(string productId, string productName, decimal price, string photoUrl, int quantity)
         {

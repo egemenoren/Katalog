@@ -15,7 +15,10 @@ namespace Katalog.Order.Domain.OrderAggregate
         public int Quantity { get; private set; }
         public decimal Price { get; private set; }
 
+        public OrderItem()
+        {
 
+        }
         public OrderItem(string productId, string productName, string photoUrl, int quantity, decimal price)
         {
             ProductId = productId;
