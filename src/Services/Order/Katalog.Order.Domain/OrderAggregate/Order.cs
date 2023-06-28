@@ -9,10 +9,10 @@ namespace Katalog.Order.Domain.OrderAggregate
 {
     public class Order : Entity, IAggregateRoot
     {
-        public string CustomerId { get; set; }
-        public Address Address { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime UpdatedDate { get; set; }
+        public string CustomerId { get; private set; }
+        public Address Address { get; private set; }
+        public DateTime CreatedDate { get; private set; }
+        public DateTime UpdatedDate { get; private set; }
         private readonly List<OrderItem> _orderItems;
         public IReadOnlyCollection<OrderItem> Items => _orderItems;
         public Order(string customerId, Address address, DateTime updatedDate)
@@ -30,6 +30,7 @@ namespace Katalog.Order.Domain.OrderAggregate
             {
                 var orderItem = new OrderItem(productId, productName, photoUrl, quantity, price);
                 _orderItems.Add(orderItem);
+                this.UpdatedDate = DateTime.Now;
             }
         }
         public decimal GetTotalPrice
