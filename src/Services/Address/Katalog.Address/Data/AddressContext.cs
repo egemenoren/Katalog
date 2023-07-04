@@ -11,7 +11,7 @@ namespace Katalog.Address.Data
             var client = new MongoClient(settings.ConnectionStrings);
             var database = client.GetDatabase(settings.DatabaseName);
 
-            TEntity = database.GetCollection<Entities.Address>(settings.AddressCollectionName);
+            TEntity = database.GetCollection<Entities.Address>(settings.AddressesCollectionName);
         }
         public IMongoCollection<Entities.Address> TEntity { get; }
     }

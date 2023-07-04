@@ -6,7 +6,7 @@ using MongoDB.Driver;
 
 namespace Katalog.Address.Repositories
 {
-    public abstract class BaseRepository<T> : IBaseRepository<T> where T:class,IBaseEntity,new()
+    public abstract class BaseRepository<T> : IBaseRepository<T> where T : class, IBaseEntity, new()
     {
 
         private readonly IBaseAddressContext<T> _context;
@@ -17,6 +17,7 @@ namespace Katalog.Address.Repositories
         }
         public virtual async Task Create(T entity)
         {
+
             await _context.TEntity.InsertOneAsync(entity);
         }
 
@@ -47,24 +48,34 @@ namespace Katalog.Address.Repositories
             return true;
         }
 
-        public Task<List<T>> GetAll()
+        public async Task<List<T>> GetAll()
         {
-            throw new NotImplementedException();
+            var result = await _context.TEntity.Find(x=>true).ToListAsync();
+            return result;
         }
 
-        public Task<T> GetById(string id)
+        public async Task<T> GetById(string id)
         {
-            throw new NotImplementedException();
+            var result = await _context.TEntity.Find(x => x.Id == id).SingleOrDefaultAsync();
+            return result;
         }
 
-        public Task<bool> Update(T entity)
+        public async Task<bool> Update(T entity)
         {
-            throw new NotImplementedException();
+            var updateResult = await _context.TEntity.ReplaceOneAsync(filter: g => g.Id == entity.Id, replacement: entity);
+            return updateResult.IsAcknowledged && updateResult.ModifiedCount > 0;
         }
 
-        public Task<bool> UpdateMany(List<T> entity)
+        public async Task<bool> UpdateMany(List<T> entity)
         {
-            throw new NotImplementedException();
+            bool overallResult = true;
+            for (int i = 0; i < entity.Count; i++)
+            {
+                var updateResult = await _context.TEntity.ReplaceOneAsync(x=>x.Id == entity[i].Id, entity[i]);
+                if(!(updateResult.IsAcknowledged && updateResult.ModifiedCount > 0))
+                    overallResult = false;
+            }
+            return overallResult;
         }
     }
 }

@@ -3,7 +3,7 @@ using Katalog.Address.Data;
 using Katalog.Address.Data.Abstract;
 using Katalog.Address.Repositories;
 using Katalog.Address.Repositories.Abstract;
-using Katalog.Address.Services;
+using Katalog.Address;
 
 namespace Katalog.Address.DependencyResolvers.Autofac
 {
@@ -20,7 +20,6 @@ namespace Katalog.Address.DependencyResolvers.Autofac
             builder.RegisterType<AddressRepository>().As<IAddressRepository>().SingleInstance();
             builder.RegisterType<TownRepository>().As<ITownRepository>().SingleInstance();
             builder.RegisterType<CityRepository>().As<ICityRepository>().SingleInstance();
-            builder.RegisterType<WriteDatasToDb>();
 
             builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>();
 

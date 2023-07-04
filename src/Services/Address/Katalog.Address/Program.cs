@@ -1,9 +1,10 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Katalog.Address.DependencyResolvers.Autofac;
-using Katalog.Address.Services;
+using Katalog.Address;
 using Katalog.Address.Settings;
 using Microsoft.Extensions.Options;
+using Katalog.Shared.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,8 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
 builder.Services.AddSwaggerGen();
 builder.Services.Configure<AddressDatabaseSettings>(builder.Configuration.GetSection(nameof(AddressDatabaseSettings)));
 builder.Services.AddSingleton<IAddressDatabaseSettings>(sp => sp.GetRequiredService<IOptions<AddressDatabaseSettings>>().Value);
+builder.Services.AddScoped<ISharedIdentityService, SharedIdentityService>();
+
 
 
 var app = builder.Build();
